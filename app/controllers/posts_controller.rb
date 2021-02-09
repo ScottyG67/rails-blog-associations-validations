@@ -24,10 +24,11 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(post_params(:name,:content,:user_id, tag_ids: []))
 
     respond_to do |format|
       if @post.save
+
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render action: 'show', status: :created, location: @post }
       else
@@ -68,7 +69,8 @@ class PostsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:name)
+    def post_params(*args)
+
+      params.require(:post).permit(*args)
     end
 end
